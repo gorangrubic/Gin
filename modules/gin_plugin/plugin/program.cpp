@@ -36,8 +36,8 @@ void GinProgram::saveProcessor (GinProcessor* p)
     if (p->state.isValid())
         valueTree = p->state.toXmlString();
 
-    Array<Parameter*> params = p->getPluginParameters();
-    for (Parameter* param : params)
+    auto params = p->getPluginParameters();
+    for (auto param : params)
         if (! param->isMetaParameter())
             states.add (param->getState());
 }
@@ -53,7 +53,7 @@ void GinProgram::loadFromFile (File f)
         name = rootE->getStringAttribute ("name");
         valueTree = rootE->getStringAttribute ("valueTree");
 
-        XmlElement* paramE = rootE->getChildByName ("param");
+        auto paramE = rootE->getChildByName ("param");
         while (paramE)
         {
             String uid = paramE->getStringAttribute ("uid");
@@ -64,7 +64,7 @@ void GinProgram::loadFromFile (File f)
             state.value = val;
             states.add (state);
 
-            paramE = paramE->getNextElementWithTagName("param");
+            paramE = paramE->getNextElementWithTagName ("param");
         }
     }
 }

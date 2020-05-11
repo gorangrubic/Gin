@@ -15,11 +15,11 @@ GinProcessor::~GinProcessor()
 
 std::unique_ptr<PropertiesFile> GinProcessor::getSettings()
 {
-#if JUCE_MAC
+   #if JUCE_MAC
     File dir = File::getSpecialLocation (File::userApplicationDataDirectory).getChildFile ("Preferences").getChildFile ("SocaLabs");
-#else
+   #else
     File dir = File::getSpecialLocation (File::userApplicationDataDirectory).getChildFile ("SocaLabs");
-#endif
+   #endif
     dir.createDirectory();
 
     PropertiesFile::Options options;
@@ -238,7 +238,6 @@ void GinProcessor::loadAllPrograms()
     // create the default program
     auto defaultProgram = new GinProgram();
     defaultProgram->name = "Default";
-    defaultProgram->saveProcessor (this);
 
     programs.add (defaultProgram);
 
@@ -249,7 +248,7 @@ void GinProcessor::loadAllPrograms()
     dir.findChildFiles (programFiles, File::findFiles, false, "*.xml");
     programFiles.sort();
 
-    for (File f : programFiles)
+    for (auto f : programFiles)
     {
         auto program = new GinProgram();
         program->loadFromFile (f);
@@ -304,20 +303,15 @@ void GinProcessor::deleteProgram (int index)
 
 File GinProcessor::getProgramDirectory()
 {
-  #ifdef JucePlugin_Name
    #if JUCE_MAC
     File dir = File::getSpecialLocation(File::userApplicationDataDirectory).getChildFile("Application Support/com.socalabs/" JucePlugin_Name "/programs");
    #else
     File dir = File::getSpecialLocation(File::userApplicationDataDirectory).getChildFile("com.socalabs/" JucePlugin_Name "/programs");
    #endif
-  #else
-    // Shouldn't be using processor in something that isn't a plugin
-    jassertfalse;
-    File dir;
-  #endif
 
     if (!dir.isDirectory())
         dir.createDirectory();
+    
     return dir;
 }
 
