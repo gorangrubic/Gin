@@ -5,8 +5,6 @@ GinProcessor::GinProcessor()
     loadAllPrograms();
 
     state = ValueTree (Identifier ("state"));
-
-    stateUpdated();
 }
 
 GinProcessor::~GinProcessor()
